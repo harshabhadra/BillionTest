@@ -4,39 +4,41 @@ import {sendEmail} from '@/services/email-service';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {toast} from "@/hooks/use-toast"
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export default function Home() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false); // State to control the AlertDialog
 
   const handleDeleteAccount = async () => {
     setIsLoading(true);
     try {
       await sendEmail('harshahelloworld@gmail.com', 'Account Deletion Request', `Phone Number: ${phoneNumber}`);
-      setIsSubmitted(true);
+      setOpen(true); // Open the AlertDialog after successful email submission
     } catch (error: any) {
       toast({
         key: phoneNumber,
         variant: "destructive",
         title: "Error submitting deletion request.",
         description: error.message,
-      })
+      });
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (isSubmitted) {
-      toast({
-        key: phoneNumber,
-        title: "Deletion request submitted!",
-        description: "We've received your request and will process it shortly.",
-      });
-    }
-  }, [isSubmitted, phoneNumber]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
@@ -51,18 +53,29 @@ export default function Home() {
           onChange={(e) => setPhoneNumber(e.target.value)}
           disabled={isSubmitted || isLoading}
         />
-        <Button
-          onClick={handleDeleteAccount}
-          disabled={isSubmitted || !phoneNumber || isLoading}
-          className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
-        >
-          {isLoading ? 'Deleting...' : 'Delete Account'}
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              onClick={handleDeleteAccount}
+              disabled={isSubmitted || !phoneNumber || isLoading}
+              className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
+            >
+              {isLoading ? 'Deleting...' : 'Delete Account'}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Deletion Request Submitted</AlertDialogTitle>
+              <AlertDialogDescription>
+                Your request to delete the account associated with {phoneNumber} has been submitted.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => setOpen(false)}>OK</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
 }
-
-
-
-    
