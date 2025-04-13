@@ -46,13 +46,13 @@ export default function Home() {
       <p className="text-muted-foreground mb-4">Enter your phone number to request account deletion.</p>
 
       <div className="flex flex-col space-y-2 w-full max-w-md">
-        <Input
+        {/* <Input
           type="tel"
           placeholder="Phone Number"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           disabled={isSubmitted || isLoading}
-        />
+        /> */}
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
