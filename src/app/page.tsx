@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
-      <img src="https://i.imgur.com/your_image_url.png" alt="BillionTests" className="mb-4" />
+      <p className="text-2xl font-bold mb-4">BillionTests</p>
       <p className="text-muted-foreground mb-4">Enter your phone number to request account deletion.</p>
 
       <div className="flex flex-col space-y-2 w-full max-w-md">
