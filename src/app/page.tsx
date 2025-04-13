@@ -4,7 +4,7 @@ import {sendEmail} from '@/services/email-service';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {toast} from "@/hooks/use-toast"
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 export default function Home() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -17,11 +17,13 @@ export default function Home() {
       await sendEmail('harshahelloworld@gmail.com', 'Account Deletion Request', `Phone Number: ${phoneNumber}`);
       setIsSubmitted(true);
       toast({
+        key: phoneNumber,
         title: "Deletion request submitted!",
         description: "We've received your request and will process it shortly.",
       })
     } catch (error: any) {
       toast({
+        key: phoneNumber,
         variant: "destructive",
         title: "Error submitting deletion request.",
         description: error.message,
@@ -55,4 +57,5 @@ export default function Home() {
     </div>
   );
 }
+
 
