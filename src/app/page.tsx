@@ -16,11 +16,6 @@ export default function Home() {
     try {
       await sendEmail('harshahelloworld@gmail.com', 'Account Deletion Request', `Phone Number: ${phoneNumber}`);
       setIsSubmitted(true);
-      toast({
-        key: phoneNumber,
-        title: "Deletion request submitted!",
-        description: "We've received your request and will process it shortly.",
-      })
     } catch (error: any) {
       toast({
         key: phoneNumber,
@@ -32,6 +27,16 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isSubmitted) {
+      toast({
+        key: phoneNumber,
+        title: "Deletion request submitted!",
+        description: "We've received your request and will process it shortly.",
+      });
+    }
+  }, [isSubmitted, phoneNumber]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
@@ -59,3 +64,5 @@ export default function Home() {
 }
 
 
+
+    
