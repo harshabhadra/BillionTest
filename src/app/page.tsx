@@ -8,7 +8,6 @@ import {useState} from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -28,6 +27,7 @@ export default function Home() {
     try {
       await sendEmail('harshahelloworld@gmail.com', 'Account Deletion Request', `Phone Number: ${phoneNumber}`);
       setOpen(true); // Open the AlertDialog after successful email submission
+      setPhoneNumber(''); // Clear the phone number input
     } catch (error: any) {
       toast({
         key: phoneNumber,
